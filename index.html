@@ -473,14 +473,14 @@
 <p>反距离插值公式：<br>$$<br>\hat{z}=\sum_{i=1}^{n} \frac{1}{d^{\alpha}} z_{i}<br>$$其中$\alpha$通常取1或2。<br>问题：</p>
 <ul>
 <li>$\alpha$的值不确定</li>
-<li>倒数函数描述空间关联程度不准确  <h2 id="2-Kriging插值定义"><a href="#2-Kriging插值定义" class="headerlink" title="2. Kriging插值定义"></a>2. Kriging插值定义</h2>$$<br>\hat{z_{o}}=\sum_{i=1}^{n} \lambda_{i} z_{i}<br>$$$\lambda_{i}$是权重系数，它用空间上所有已知点的数据加权求和来估计未知点的值。但权重系数并非距离的倒数，而是能够满足点 ($x_{0}$,$y_{0}$)处的估计值$\hat{z_{0}}$与真实值$z_{0}$的差最小的一套最优系数，即<br>$$<br>\min <em>{\lambda</em>{i}} \operatorname{Var}\left(\hat{z_{o}}-z_{o}\right)<br>$$同时满足无偏估计的条件$$<br>E\left(\hat{z}<em>{o}-z</em>{o}\right)=0<br>$$</li>
+<li>倒数函数描述空间关联程度不准确  <h2 id="2-Kriging插值定义"><a href="#2-Kriging插值定义" class="headerlink" title="2. Kriging插值定义"></a>2. Kriging插值定义</h2>Kringing法权重不仅取决于测量点之间的距离、预测位置，还取决于基于测量点的<strong>整体空间排列性</strong>。<br>$$\hat{z_{o}}=\sum_{i=1}^{n} \lambda_{i} z_{i}$$$\lambda_{i}$是权重系数，它用空间上所有已知点的数据加权求和来估计未知点的值。但权重系数并非距离的倒数，而是能够满足点 ($x_{0}$,$y_{0}$)处的估计值$\hat{z_{0}}$与真实值$z_{0}$的差最小的一套最优系数，即$$\min <em>{\lambda</em>{i}} \operatorname{Var}\left(\hat{z_{o}}-z_{o}\right)$$同时满足无偏估计的条件$$<br>E\left(\hat{z}<em>{o}-z</em>{o}\right)=0$$</li>
 </ul>
 <h2 id="3-Kriging插值主体结构"><a href="#3-Kriging插值主体结构" class="headerlink" title="3. Kriging插值主体结构"></a>3. Kriging插值主体结构</h2><p>Kriging法主体分两步进行：</p>
 <ol>
 <li>变异分析</li>
 <li>预测</li>
 </ol>
-<p>其中变异分析为通过经验半变异函数拟合出半变异函数模型（能够反映整体空间信息），在该步存在球面、指数、高斯、线性多种函数选择。<br>预测为通过所有已知点数据生成权重来预测未测量位置，权重由空间点位置与拟合出的半变异函数共同构建线性方程组求得。</p>
+<p>其中变异分析为通过经验半变异函数拟合出<strong>半变异函数模型</strong>（能够反映整体空间信息），在该步存在球面、指数、高斯、线性多种函数选择。<br>预测为通过所有已知点数据生成权重来预测未测量位置，权重由空间点位置与拟合出的半变异函数共同构建线性方程组求得。</p>
 <h2 id="4-Kriging算法结构："><a href="#4-Kriging算法结构：" class="headerlink" title="4. Kriging算法结构："></a>4. Kriging算法结构：</h2><ol>
 <li>对于观测数据，两两计算距离与半方差；</li>
 <li>寻找拟合曲线拟合距离与半方差的关系，得到半变异函数；</li>
