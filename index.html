@@ -424,6 +424,96 @@
 
 </article>
     
+    <article id="post-Kriging插值" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/12/Kriging%E6%8F%92%E5%80%BC/"
+    >《Kringing插值》</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/02/12/Kriging%E6%8F%92%E5%80%BC/" class="article-date">
+  <time datetime="2020-02-11T22:00:00.000Z" itemprop="datePublished">2020-02-12</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%A7%91%E5%AD%A6/">科学</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="1-反距离插值（Inverse-Distance-Weighted-IDW）"><a href="#1-反距离插值（Inverse-Distance-Weighted-IDW）" class="headerlink" title="1. 反距离插值（Inverse Distance Weighted, IDW）"></a>1. 反距离插值（Inverse Distance Weighted, IDW）</h2><p>地理学第一定律：</p>
+<blockquote>
+<p>“everything is related to everything else, but near things are more related than distant things.”</p>
+</blockquote>
+<p>反距离插值公式：<br>$$<br>\hat{z}=\sum_{i=1}^{n} \frac{1}{d^{\alpha}} z_{i}<br>$$其中$\alpha$通常取1或2。<br>问题：</p>
+<ul>
+<li>$\alpha$的值不确定</li>
+<li>倒数函数描述空间关联程度不准确  <h2 id="2-Kriging插值定义"><a href="#2-Kriging插值定义" class="headerlink" title="2. Kriging插值定义"></a>2. Kriging插值定义</h2>$$<br>\hat{z_{o}}=\sum_{i=1}^{n} \lambda_{i} z_{i}<br>$$$\lambda_{i}$是权重系数，它用空间上所有已知点的数据加权求和来估计未知点的值。但权重系数并非距离的倒数，而是能够满足点 ($x_{0}$,$y_{0}$)处的估计值$\hat{z_{0}}$与真实值$z_{0}$的差最小的一套最优系数，即<br>$$<br>\min <em>{\lambda</em>{i}} \operatorname{Var}\left(\hat{z_{o}}-z_{o}\right)<br>$$同时满足无偏估计的条件$$<br>E\left(\hat{z}<em>{o}-z</em>{o}\right)=0<br>$$</li>
+</ul>
+<h2 id="3-Kriging插值主体结构"><a href="#3-Kriging插值主体结构" class="headerlink" title="3. Kriging插值主体结构"></a>3. Kriging插值主体结构</h2><p>Kriging法主体分两步进行：</p>
+<ol>
+<li>变异分析</li>
+<li>预测</li>
+</ol>
+<p>其中变异分析为通过经验半变异函数拟合出半变异函数模型（能够反映整体空间信息），在该步存在球面、指数、高斯、线性多种函数选择。<br>预测为通过所有已知点数据生成权重来预测未测量位置，权重由空间点位置与拟合出的半变异函数共同构建线性方程组求得。</p>
+<h2 id="4-Kriging算法结构："><a href="#4-Kriging算法结构：" class="headerlink" title="4. Kriging算法结构："></a>4. Kriging算法结构：</h2><ol>
+<li>对于观测数据，两两计算距离与半方差；</li>
+<li>寻找拟合曲线拟合距离与半方差的关系，得到半变异函数；</li>
+<li>计算出所有已知点之间的半方差；</li>
+<li>计算未知点到所有已知点的半方差；</li>
+<li>求解线性方程组，得到最优权重系数；</li>
+<li>使用最优权重系数对已知点的属性值进行加权求和，得到未知点估计值。</li>
+</ol>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.limublog.site/2020/02/12/Kriging%E6%8F%92%E5%80%BC/" data-id="ck7kkt1lh0000botz5gbx4m5h"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%91%E5%AD%A6/" rel="tag">科学</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-Bible" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -783,83 +873,6 @@
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%87%AA%E7%84%B6/" rel="tag">自然</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%A3%9F%E7%89%A9/" rel="tag">食物</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-莫吉托" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/10/%E8%8E%AB%E5%90%89%E6%89%98/"
-    >莫吉托</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/12/10/%E8%8E%AB%E5%90%89%E6%89%98/" class="article-date">
-  <time datetime="2019-12-09T22:00:00.000Z" itemprop="datePublished">2019-12-10</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%87%AA%E7%84%B6/">自然</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="莫吉托"><a href="#莫吉托" class="headerlink" title="莫吉托"></a>莫吉托</h2><ul>
-<li>柠檬切四瓣放入杯底</li>
-<li>加入7~9片嫩薄荷叶</li>
-<li>加一勺糖</li>
-<li>轻捣出汁</li>
-<li>加入朗姆酒</li>
-<li>把冰敲碎，加冰</li>
-<li>加入苏打水/雪碧/anything else</li>
-<li>加冰块，插薄荷叶装饰</li>
-</ul>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.limublog.site/2019/12/10/%E8%8E%AB%E5%90%89%E6%89%98/" data-id="ck658gii7000380tz31dpg1hr"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%87%AA%E7%84%B6/" rel="tag">自然</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%85%92/" rel="tag">酒</a></li></ul>
 
     </footer>
 
