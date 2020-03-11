@@ -59,7 +59,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.2k字</span>
+            <span class="post-count">2.3k字</span>
         </span>
     </span>
 
@@ -128,46 +128,52 @@
 <li>对所有湍流运动进行建模</li>
 <li>对于大多数问题，只需要时间平均流（和湍流水平）</li>
 <li>有许多不同的模型可用</li>
-<li><strong>工业流最广泛使用的方法</strong><h3 id="2-基于RANS的模型"><a href="#2-基于RANS的模型" class="headerlink" title="2. 基于RANS的模型"></a>2. 基于RANS的模型</h3><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/RANSmodels.png" alt="RANS"><h3 id="3-RANS模型的性能与选择"><a href="#3-RANS模型的性能与选择" class="headerlink" title="3. RANS模型的性能与选择"></a>3. RANS模型的性能与选择</h3></li>
+<li><strong>工业流最广泛使用的方法</strong></li>
 </ul>
 </li>
-<li>Spalart-Allmaras<br>对于大网格很经济。适用于轻度复杂（准二维）的内外流和压力梯度下的边界层流动（如机翼、机翼、飞机机身、导弹、船体）。对于三维流、自由剪切流和强分离流，性能较差。</li>
+</ol>
+<h3 id="2-基于RANS的模型"><a href="#2-基于RANS的模型" class="headerlink" title="2. 基于RANS的模型"></a>2. 基于RANS的模型</h3><p><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/RANSmodels.png" alt="RANS"></p>
+<h3 id="3-RANS模型的性能与选择"><a href="#3-RANS模型的性能与选择" class="headerlink" title="3. RANS模型的性能与选择"></a>3. RANS模型的性能与选择</h3><ol>
+<li>Spalart-Allmaras<br>对于大网格很经济。适用于轻度复杂（准二维）的内外流和压力梯度下的边界层流动（如机翼、翼型、飞机机身、导弹、船体）。对于三维流、自由剪切流和强分离流，性能较差。</li>
 <li>Standard k–ε<br>鲁棒。尽管模型存在已知的局限性，但仍被广泛使用。对于压力梯度大、分离、流线曲率大的复杂流动，性能较差。适用于初始迭代、替代设计的初始筛选和参数研究。</li>
 <li><strong>Realizable k–ε</strong><br>适用于复杂的剪切流，包括迅速应变、中等漩涡、涡流和局部过渡流（例如边界层分离、大尺度分离和钝体后的漩涡脱落、广角扩压器失速、室内通风）。</li>
 <li>RNG k–ε<br>同Realizable提供基本相同的好处和应用。可能比Realizable更难收敛。</li>
 <li>Standard k–ω<br>与k–ε家族相比，在壁面边界层、自由剪切流和低雷诺数流动上具有优越的性能。适用于压力梯度和分离（外部空气动力学和涡轮机械）下的复杂边界层流动。分离可能会过晚或过早。</li>
-<li><strong>SST k–ω</strong><br>提供与标准k-ω类似的优点，同标准k-ω一样对入口边界条件不太敏感。提供比其他RANS模型更准确的流动分离预测。</li>
+<li><strong>SST k–ω</strong><br>提供与Standard k-ω类似的优点，同Standard k-ω一样对入口边界条件不太敏感。提供比其他RANS模型更准确的流动分离预测。</li>
 <li>RSM<br>物理上最健全的RANS模型。避免各向同性涡粘性假设。需要更多的CPU时间和内存。由于方程组的紧密耦合，更难收敛。适用于具有强流线曲率、强涡流/旋转的复杂三维流动（例如弯曲管道、旋转流道、具有很大进气涡流的涡流燃烧室、气旋）。</li>
 </ol>
-<p><strong>Realizable k–ε 或 SST k–ω是标准情况下的推荐选择。</strong><br>对于关键在于边界层高精度求解的情况（例如涉及流动分离或精细求解传热剖面）,SST k–ω是首选。<br>如果只需要粗略估计湍流（这可能发生在解决方案更依赖于其他物理模型或建模假设而不是湍流模型的问题上），可以使用Standard k–ε模型。</p>
+<p><strong>Realizable k–ε 或 SST k–ω 是标准情况下的推荐选择。</strong><br>对于关键在于边界层高精度求解的情况（例如涉及流动分离或精细求解传热剖面）,SST k–ω 是首选。<br>如果只需要粗略估计湍流（这可能发生在解决方案更依赖于其他物理模型或建模假设而不是湍流模型的问题上），可以使用Standard k–ε模型。</p>
 <h2 id="Near-Wall-Treatments"><a href="#Near-Wall-Treatments" class="headerlink" title="Near-Wall Treatments"></a>Near-Wall Treatments</h2><h3 id="1-湍流边界层"><a href="#1-湍流边界层" class="headerlink" title="1. 湍流边界层"></a>1. 湍流边界层</h3><ul>
 <li>湍流边界层由不同的区域组成</li>
 <li>对于CFD，最重要的是紧靠壁面的粘性子层，和稍微远离壁面的对数层</li>
-<li>不同的湍流模型需要不同的输入，这取决于模拟是否需要解决带网格的粘性子层<br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/boundary1.png" alt="湍流边界层"><h3 id="2-边界层剖面"><a href="#2-边界层剖面" class="headerlink" title="2. 边界层剖面"></a>2. 边界层剖面</h3></li>
+<li>不同的湍流模型需要不同的输入，这取决于模拟是否需要解决带网格的粘性子层<br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/boundary1.png" alt="湍流边界层"></li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/boundary2.png" alt="边界层剖面"><br>如果我们再次绘制，并且：</p>
+<h3 id="2-边界层剖面"><a href="#2-边界层剖面" class="headerlink" title="2. 边界层剖面"></a>2. 边界层剖面</h3><p><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/boundary2.png" alt="边界层剖面"><br>如果我们再次绘制，并且：</p>
 <ul>
 <li>使用对数坐标轴</li>
 <li>速度使用$\frac{U}{U_{\tau}}$无量纲化，其中 $U_{\tau}=\sqrt{\frac{\tau_{\text {wall }}}{\rho}}$</li>
 <li>距壁面距离使用$y^{+}=\frac{y u_{\tau}}{\nu}$无量纲化</li>
 </ul>
-<p>然后我们得出如下图形。对于所有流动其形状通常相同：<br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/boundary3.png" alt="无量纲边界层剖面"><br>速度剖面数据呈现可预测的形式（从线性的粘性子层过渡到对数型的对数层）。</p>
-<h3 id="3-壁面模化策略"><a href="#3-壁面模化策略" class="headerlink" title="3. 壁面模化策略"></a>3. 壁面模化策略</h3><p>在近壁区域，解的梯度很高，但在近壁区域的精确计算对模拟的成功至关重要。选择是</p>
+<p>然后我们得出如下图形。对于所有流动其形状通常相同：<br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/boundary3.png" alt="无量纲边界层剖面"><br>可见速度剖面数据呈现可预测的形式（从线性的粘性子层过渡到对数型的对数层）。</p>
+<h3 id="3-壁面模化策略"><a href="#3-壁面模化策略" class="headerlink" title="3. 壁面模化策略"></a>3. 壁面模化策略</h3><p>在近壁区域解的梯度很高，而且近壁区域的精确计算对模拟的成功至关重要。选择是</p>
 <ol>
 <li>使用壁面函数<ul>
-<li>壁面函数利用可预测的无量纲边界层剖面，允许当壁面相邻网格单元的质心位于对数层时确定壁面条件（例如剪应力）。<ul>
+<li>壁面函数利用可预测的无量纲边界层剖面，允许当壁面相邻网格单元的质心位于对数层时确定壁面情况（例如剪应力）。<ul>
 <li>为了将第一层网格单元置于对数层，通常有个$y^{+}$值，例如$30&lt;y^{+}&lt;300$。</li>
-<li>这是一个非常普遍的准则：对于非常高的$Re$，如果仍然在对数层中$y^{+}$可以更高；对于非常低的$Re$（但仍然是湍流），对数层可能不会延伸到离壁面足够远的地方</li>
-<li>如果$y^{+}&lt;30$，则不应使用壁面函数</li>
+<li>这是一个非常普遍的准则：对于非常高的$Re$，如果仍然在对数层中，$y^{+}$可以更高；对于非常低的$Re$（但仍然是湍流），对数层可能不会延伸到离壁面足够远的地方</li>
+<li>如果$y^{+}&lt;30$，则不应使用壁面函数<ul>
+<li>一般来说，如果你更感兴趣的是中间区域的混合，而不是壁面上的力，这是个方法。</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>求解粘性子层<ul>
 <li>第一个网格单元需要在$y^{+}\approx1$左右，并且应使用增长速率不高于$\approx1.2$的棱柱层网格<ul>
-<li>该准测确保网格能够充分地解析粘性子层中的梯度<ul>
+<li>该准则确保网格能够充分地解析粘性子层中的梯度<ul>
 <li>这将显著增加网格数</li>
-<li>一般来说，如果壁面上的力或热传递是模拟的关键（气动阻力、涡轮机械叶片性能、热传递），这是您将采用的方法，大多数情况下推荐的湍流模型是SST k–ω。<h3 id="4-近壁端网格分辨率"><a href="#4-近壁端网格分辨率" class="headerlink" title="4. 近壁端网格分辨率"></a>4. 近壁端网格分辨率</h3>使用基于对数型的壁面函数时，垂直于壁面所需的节点数更少（与使用网格求解粘性子层相比）<br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/%E7%BD%91%E6%A0%BC%E5%88%86%E8%BE%A8%E7%8E%87.png" alt="resolution"></li>
+<li>一般来说，如果壁面上的力或热传递是模拟的关键（气动阻力、涡轮机械叶片性能、热传递），这是您将采用的方法，大多数情况下推荐的湍流模型是SST k–ω。</li>
 </ul>
 </li>
 </ul>
@@ -175,14 +181,15 @@
 </ul>
 </li>
 </ol>
+<h3 id="4-近壁端网格分辨率"><a href="#4-近壁端网格分辨率" class="headerlink" title="4. 近壁端网格分辨率"></a>4. 近壁端网格分辨率</h3><p>使用基于对数型的壁面函数时，垂直于壁面所需的节点数更少（与使用网格求解粘性子层相比）<br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/%E7%BD%91%E6%A0%BC%E5%88%86%E8%BE%A8%E7%8E%87.png" alt="resolution"></p>
 <p>$y^{+}$计算器：<a href="https://www.cfd-online.com/Tools/yplus.php" target="_blank" rel="noopener">Yplus</a><br>表面摩擦系数列表：<a href="https://www.cfd-online.com/Wiki/Skin_friction_coefficient" target="_blank" rel="noopener">Skin Friction Coefficient</a></p>
 <p>在某些情况下，如边界层分离，基于对数的壁面函数不能正确预测边界层剖面。（Fluent已经开发出非平衡壁面函数以解决这种情况，但它们非常具有经验性。如果负担得起，建议使用网格来解决粘性子层）。</p>
-<h3 id="5-求解设置"><a href="#5-求解设置" class="headerlink" title="5. 求解设置"></a>5. 求解设置</h3><p>如果求解粘性子层</p>
+<h3 id="5-求解设置"><a href="#5-求解设置" class="headerlink" title="5. 求解设置"></a>5. 求解设置</h3><p>如果求解粘性子层：</p>
 <ul>
 <li>使用k–ω模型或带有增强壁面处理（EWT）的k–ε模型</li>
 <li>k–ω模型不需要单独输入</li>
 </ul>
-<p>如果使用壁面函数</p>
+<p>如果使用壁面函数：</p>
 <ul>
 <li>使用带壁面函数的k–ε模型<ul>
 <li>也可以使用EWT，因为它是一种对$y^{+}$不敏感的方法，并且如果第一个网格点在对数层中，它将像壁面函数一样工作</li>
@@ -190,10 +197,11 @@
 </li>
 <li>对于k–ω模型<ul>
 <li>k–ω模型使用对$y^{+}$不敏感的壁面处理，并且如果第一个网格点在对数层中，它将像壁面函数一样工作</li>
-<li>但是，当使用粗糙的近壁网格时，模型的优势可能会丧失<h2 id="Inlet-BCs"><a href="#Inlet-BCs" class="headerlink" title="Inlet BCs"></a>Inlet BCs</h2>当湍流在入口或出口（回流）进入一个区域时，必须给出湍流模型变量的边界条件。</li>
+<li>但是，当使用粗糙的近壁网格时，模型的优势可能会丧失</li>
 </ul>
 </li>
 </ul>
+<h2 id="Inlet-BCs"><a href="#Inlet-BCs" class="headerlink" title="Inlet BCs"></a>Inlet BCs</h2><p>当湍流在入口或出口（回流）进入一个区域时，必须给出湍流模型变量的边界条件。</p>
 <p>指定湍流边界条件的四种方法：</p>
 <ol>
 <li><strong>湍流强度和粘度系数(默认)</strong><br>当你没有关于入口湍流信息的情况时，选取湍流强度$=5%$和湍流粘度系数$=10$的默认值是合理的。</li>
@@ -211,10 +219,11 @@
 <li>默认湍流强度值$5%$对于通过圆形入口的标准湍流来说是足够的，并且在没有实验数据的情况下是一个很好的估计值</li>
 <li>对于外流，粘度系数为$1-10$通常是一个很好的值</li>
 <li>对于内流，粘度系数为$10-100$通常是一个很好的值<ul>
-<li>对于$Re =50000$的充分发展的管流，粘度系数约为$100$<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>在Fluent中执行湍流计算:</li>
+<li>对于$Re =50000$的充分发展的管流，粘度系数约为$100$</li>
 </ul>
 </li>
 </ul>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>在Fluent中执行湍流计算:</p>
 <ol>
 <li>计算雷诺数并确定流动是否为湍流。</li>
 <li>确定近壁建模策略<ul>
