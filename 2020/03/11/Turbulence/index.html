@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    《Turbulence Modeling》 |  
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/icon.ico" />
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-Turbulence" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  《Turbulence Modeling》
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/03/11/Turbulence/" class="article-date">
+  <time datetime="2020-03-11T18:48:00.000Z" itemprop="datePublished">2020-03-11</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%A7%91%E5%AD%A6/">科学</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.2k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">8分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>工程流主要是湍流，在Fluent中模拟湍流需要激活湍流模型，选择近壁模化方式，并为湍流模型提供入口边界条件。</p>
+<h2 id="Reynolds-Number"><a href="#Reynolds-Number" class="headerlink" title="Reynolds Number"></a>Reynolds Number</h2><p>雷诺数是用来确定流动是层流还是湍流的标准。$$<br>\mathrm{Re}_{L}=\frac{\rho \cdot U \cdot L}{\mu}<br>$$</p>
+<ul>
+<li>雷诺数基于如下的流动长度尺度:<br>$$L=x,d,\mathrm{d}_{hyd},etc.$$</li>
+<li>何时向湍流过渡取决于流动类型:<ul>
+<li>外流:<ul>
+<li>沿表面   :  $\mathrm{Re}_{x}&gt;500000$</li>
+<li>在障碍物周围 :    $\mathrm{Re}_{L}&gt;20000$</li>
+</ul>
+</li>
+<li>内流 :  $\mathrm{Re}_{D}&gt;2300$</li>
+</ul>
+</li>
+</ul>
+<h2 id="Models"><a href="#Models" class="headerlink" title="Models"></a>Models</h2><h3 id="1-湍流计算的三种基本计算方式"><a href="#1-湍流计算的三种基本计算方式" class="headerlink" title="1. 湍流计算的三种基本计算方式"></a>1. 湍流计算的三种基本计算方式</h3><ol>
+<li>DNS (Direct Numerical Simulation)<ul>
+<li>数值求解全非定常Navier-Stokes方程</li>
+<li>求解整个尺度谱</li>
+<li>无需建模</li>
+<li><strong>成本太高！不适用于工业流动！</strong></li>
+</ul>
+</li>
+<li>LES (Large Eddy Simulation)<ul>
+<li>求解滤波后的N-S方程</li>
+<li>直接求解部分湍流</li>
+<li>比DNS代价小，但对于大多数实际应用来说，所需的工作量和计算资源仍太大</li>
+<li>在Fluent中可用</li>
+</ul>
+</li>
+<li>RANS (Reynolds Averaged NavierStokes Simulation)<ul>
+<li>求解时间平均的N-S方程</li>
+<li>对所有湍流运动进行建模</li>
+<li>对于大多数问题，只需要时间平均流（和湍流水平）</li>
+<li>有许多不同的模型可用</li>
+<li><strong>工业流最广泛使用的方法</strong><h3 id="2-基于RANS的模型"><a href="#2-基于RANS的模型" class="headerlink" title="2. 基于RANS的模型"></a>2. 基于RANS的模型</h3><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/RANSmodels.png" alt="RANS"><h3 id="3-RANS模型的性能与选择"><a href="#3-RANS模型的性能与选择" class="headerlink" title="3. RANS模型的性能与选择"></a>3. RANS模型的性能与选择</h3></li>
+</ul>
+</li>
+<li>Spalart-Allmaras<br>对于大网格很经济。适用于轻度复杂（准二维）的内外流和压力梯度下的边界层流动（如机翼、机翼、飞机机身、导弹、船体）。对于三维流、自由剪切流和强分离流，性能较差。</li>
+<li>Standard k–ε<br>鲁棒。尽管模型存在已知的局限性，但仍被广泛使用。对于压力梯度大、分离、流线曲率大的复杂流动，性能较差。适用于初始迭代、替代设计的初始筛选和参数研究。</li>
+<li><strong>Realizable k–ε</strong><br>适用于复杂的剪切流，包括迅速应变、中等漩涡、涡流和局部过渡流（例如边界层分离、大尺度分离和钝体后的漩涡脱落、广角扩压器失速、室内通风）。</li>
+<li>RNG k–ε<br>同Realizable提供基本相同的好处和应用。可能比Realizable更难收敛。</li>
+<li>Standard k–ω<br>与k–ε家族相比，在壁面边界层、自由剪切流和低雷诺数流动上具有优越的性能。适用于压力梯度和分离（外部空气动力学和涡轮机械）下的复杂边界层流动。分离可能会过晚或过早。</li>
+<li><strong>SST k–ω</strong><br>提供与标准k-ω类似的优点，同标准k-ω一样对入口边界条件不太敏感。提供比其他RANS模型更准确的流动分离预测。</li>
+<li>RSM<br>物理上最健全的RANS模型。避免各向同性涡粘性假设。需要更多的CPU时间和内存。由于方程组的紧密耦合，更难收敛。适用于具有强流线曲率、强涡流/旋转的复杂三维流动（例如弯曲管道、旋转流道、具有很大进气涡流的涡流燃烧室、气旋）。</li>
+</ol>
+<p><strong>Realizable k–ε 或 SST k–ω是标准情况下的推荐选择。</strong><br>对于关键在于边界层高精度求解的情况（例如涉及流动分离或精细求解传热剖面）,SST k–ω是首选。<br>如果只需要粗略估计湍流（这可能发生在解决方案更依赖于其他物理模型或建模假设而不是湍流模型的问题上），可以使用Standard k–ε模型。</p>
+<h2 id="Near-Wall-Treatments"><a href="#Near-Wall-Treatments" class="headerlink" title="Near-Wall Treatments"></a>Near-Wall Treatments</h2><h3 id="1-湍流边界层"><a href="#1-湍流边界层" class="headerlink" title="1. 湍流边界层"></a>1. 湍流边界层</h3><ul>
+<li>湍流边界层由不同的区域组成</li>
+<li>对于CFD，最重要的是紧靠壁面的粘性子层，和稍微远离壁面的对数层</li>
+<li>不同的湍流模型需要不同的输入，这取决于模拟是否需要解决带网格的粘性子层<br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/boundary1.png" alt="湍流边界层"><h3 id="2-边界层剖面"><a href="#2-边界层剖面" class="headerlink" title="2. 边界层剖面"></a>2. 边界层剖面</h3></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/boundary2.png" alt="边界层剖面"><br>如果我们再次绘制，并且：</p>
+<ul>
+<li>使用对数坐标轴</li>
+<li>速度使用$\frac{U}{U_{\tau}}$无量纲化，其中 $U_{\tau}=\sqrt{\frac{\tau_{\text {wall }}}{\rho}}$</li>
+<li>距壁面距离使用$y^{+}=\frac{y u_{\tau}}{\nu}$无量纲化</li>
+</ul>
+<p>然后我们得出如下图形。对于所有流动其形状通常相同：<br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/boundary3.png" alt="无量纲边界层剖面"><br>速度剖面数据呈现可预测的形式（从线性的粘性子层过渡到对数型的对数层）。</p>
+<h3 id="3-壁面模化策略"><a href="#3-壁面模化策略" class="headerlink" title="3. 壁面模化策略"></a>3. 壁面模化策略</h3><p>在近壁区域，解的梯度很高，但在近壁区域的精确计算对模拟的成功至关重要。选择是</p>
+<ol>
+<li>使用壁面函数<ul>
+<li>壁面函数利用可预测的无量纲边界层剖面，允许当壁面相邻网格单元的质心位于对数层时确定壁面条件（例如剪应力）。<ul>
+<li>为了将第一层网格单元置于对数层，通常有个$y^{+}$值，例如$30&lt;y^{+}&lt;300$。</li>
+<li>这是一个非常普遍的准则：对于非常高的$Re$，如果仍然在对数层中$y^{+}$可以更高；对于非常低的$Re$（但仍然是湍流），对数层可能不会延伸到离壁面足够远的地方</li>
+<li>如果$y^{+}&lt;30$，则不应使用壁面函数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>求解粘性子层<ul>
+<li>第一个网格单元需要在$y^{+}\approx1$左右，并且应使用增长速率不高于$\approx1.2$的棱柱层网格<ul>
+<li>该准测确保网格能够充分地解析粘性子层中的梯度<ul>
+<li>这将显著增加网格数</li>
+<li>一般来说，如果壁面上的力或热传递是模拟的关键（气动阻力、涡轮机械叶片性能、热传递），这是您将采用的方法，大多数情况下推荐的湍流模型是SST k–ω。<h3 id="4-近壁端网格分辨率"><a href="#4-近壁端网格分辨率" class="headerlink" title="4. 近壁端网格分辨率"></a>4. 近壁端网格分辨率</h3>使用基于对数型的壁面函数时，垂直于壁面所需的节点数更少（与使用网格求解粘性子层相比）<br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/%E7%BD%91%E6%A0%BC%E5%88%86%E8%BE%A8%E7%8E%87.png" alt="resolution"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>$y^{+}$计算器：<a href="https://www.cfd-online.com/Tools/yplus.php" target="_blank" rel="noopener">Yplus</a><br>表面摩擦系数列表：<a href="https://www.cfd-online.com/Wiki/Skin_friction_coefficient" target="_blank" rel="noopener">Skin Friction Coefficient</a></p>
+<p>在某些情况下，如边界层分离，基于对数的壁面函数不能正确预测边界层剖面。（Fluent已经开发出非平衡壁面函数以解决这种情况，但它们非常具有经验性。如果负担得起，建议使用网格来解决粘性子层）。</p>
+<h3 id="5-求解设置"><a href="#5-求解设置" class="headerlink" title="5. 求解设置"></a>5. 求解设置</h3><p>如果求解粘性子层</p>
+<ul>
+<li>使用k–ω模型或带有增强壁面处理（EWT）的k–ε模型</li>
+<li>k–ω模型不需要单独输入</li>
+</ul>
+<p>如果使用壁面函数</p>
+<ul>
+<li>使用带壁面函数的k–ε模型<ul>
+<li>也可以使用EWT，因为它是一种对$y^{+}$不敏感的方法，并且如果第一个网格点在对数层中，它将像壁面函数一样工作</li>
+</ul>
+</li>
+<li>对于k–ω模型<ul>
+<li>k–ω模型使用对$y^{+}$不敏感的壁面处理，并且如果第一个网格点在对数层中，它将像壁面函数一样工作</li>
+<li>但是，当使用粗糙的近壁网格时，模型的优势可能会丧失<h2 id="Inlet-BCs"><a href="#Inlet-BCs" class="headerlink" title="Inlet BCs"></a>Inlet BCs</h2>当湍流在入口或出口（回流）进入一个区域时，必须给出湍流模型变量的边界条件。</li>
+</ul>
+</li>
+</ul>
+<p>指定湍流边界条件的四种方法：</p>
+<ol>
+<li><strong>湍流强度和粘度系数(默认)</strong><br>当你没有关于入口湍流信息的情况时，选取湍流强度$=5%$和湍流粘度系数$=10$的默认值是合理的。</li>
+<li><strong>湍流强度和长度尺度</strong><br>长度尺度与包含大部分能量的大涡大小有关<ul>
+<li>边界层流动 : $l \approx 0.4 \delta_{99}$</li>
+<li>对于网格下游的流动 : $l \approx opening\ size$</li>
+</ul>
+</li>
+<li><strong>湍流强度和水力直径（主要用于内流）</strong></li>
+<li><strong>显式输入k、ε、ω</strong>或雷诺应力分量（这是唯一允许定义剖面的方法）</li>
+</ol>
+<p>如果完全不知道模拟中的湍流级别，可以使用以下湍流强度和粘度系数：</p>
+<ul>
+<li>正常湍流强度范围为$1%$到$5%$</li>
+<li>默认湍流强度值$5%$对于通过圆形入口的标准湍流来说是足够的，并且在没有实验数据的情况下是一个很好的估计值</li>
+<li>对于外流，粘度系数为$1-10$通常是一个很好的值</li>
+<li>对于内流，粘度系数为$10-100$通常是一个很好的值<ul>
+<li>对于$Re =50000$的充分发展的管流，粘度系数约为$100$<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>在Fluent中执行湍流计算:</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>计算雷诺数并确定流动是否为湍流。</li>
+<li>确定近壁建模策略<ul>
+<li>选择是 : A).计算粘性子层 或 B).使用壁面函数</li>
+<li>创建网格，使其适合于选定方法的$y^{+}$</li>
+</ul>
+</li>
+<li>在粘性模型面板中选择湍流模型和近壁处理（如有必要）<ul>
+<li>对于标准情况，建议选择Realizable k–ε 或 SST k–ω</li>
+<li>对于粘性子层需要求解的情况（流动分离，详细传热），首选SST k–ω</li>
+</ul>
+</li>
+<li>为湍流模型变量设置合理的边界条件</li>
+</ol>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.limublog.site/2020/03/11/Turbulence/" data-id="ck7ns3ae10000rstzdtosforj"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%81%E4%BD%93/" rel="tag">流体</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%91%E5%AD%A6/" rel="tag">科学</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/02/28/%E7%88%B1%E7%9A%84%E8%89%BA%E6%9C%AF/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">《爱的艺术》</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        notify: false,
+        verify: '',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        E
+      </li>
+      <li>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <ul class="list-inline">
+  <li>PV:<span id="busuanzi_value_page_pv"></span></li>
+  <li>UV:<span id="busuanzi_value_site_uv"></span></li>
+</ul>
+        
+      </li>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+    <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/icon.svg" alt=""></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags/%E8%87%AA%E7%84%B6/">自然</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags/%E7%A7%91%E5%AD%A6/">科学</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>去喝一杯？</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+      <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      document.getElementById(e.target.innerText).scrollIntoView()
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<script src="/js/ayer.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+  </div>
+</body>
+
+</html>
