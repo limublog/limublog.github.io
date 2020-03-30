@@ -53,6 +53,102 @@
     
     
     
+    <article id="post-reference" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/03/20/reference/"
+    >《科学句摘》</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/03/20/reference/" class="article-date">
+  <time datetime="2020-03-19T22:00:00.000Z" itemprop="datePublished">2020-03-20</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%A7%91%E5%AD%A6/">科学</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <ol>
+<li>$$\begin{aligned}<br>&amp;e^{x}=\lim _{n \rightarrow \infty}(1+x / n)^{n}\<br>&amp;e^{i x}=\lim _{n \rightarrow \infty}(1+i x / n)^{n}<br>\end{aligned}$$<br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/%E5%8D%95%E4%BD%8D%E5%9C%86.jpg" alt="单位圆"><br>当$n$足够大的时候，$e^{i x}$其实就是一个单位圆.<br>$e^{i x}=cos(x)+isin(x)$<br>$e^{i x}$还有更符合直觉的内在涵义： $e$代表连续，$i$代表旋转，$e^{i x}$自然就代表了连续旋转。<ol start="2">
+<li>内积相当于一种“投影”操作，任意向量与基之间的内积就是该向量在基所在方向的投影，内积的结果就是系数。</li>
+<li>傅里叶变换是将函数分解到频率不同、幅值恒为1的单位圆上；拉普拉斯变换是将函数分解到频率幅值都在变化的圆上。因为拉普拉斯变换的基有两个变量，因此更灵活，适用范围更广。</li>
+<li>卷积公式：$f(t) * g(t)=\int_{-\infty}^{+\infty} f(t-\tau) g(\tau) d \tau$<br>输入信号$f(t)$在系统响应函数$g(t)$下得到的系统输出结果$f(t) * g(t)$。<br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/%E5%8D%B7%E7%A7%AF1.jpg" alt="卷积1"><br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/%E5%8D%B7%E7%A7%AF2.jpg" alt="卷积2"></li>
+<li>两个信号在时域相乘，在频域相当于卷积；在时域卷积，在频响相当于相乘。</li>
+</ol>
+</li>
+<li>常微分方程(Ordinary Differential Equation)简称ODE，变量只和时间$t$有关系，和空间位置没关系，换句话说，常微分方程描述的是单质点的变化规律。常微分方程一般是把研究对象当成一个质点或者刚体，研究整体的运动规律。</li>
+<li>偏微分方程(Partial Differential Equation)简称PDE，变量既与时间$t$有关也与空间位置有关，偏微分方程能描述的连续体的各个点随时间连续变化的情况，本质上就是一种“场”的描述了，一般偏微分方程也称之为数学物理方程。</li>
+<li>我们目前只能解“线性常微分方程”，对于非线性常微分方程以及偏微分方程，除了极简单的情况下，我们目前都无法找到解析解。<br><img src="https://raw.githubusercontent.com/limublog/blogPHOTO/master/J%20Pan.jpg" alt="机电工程师思维图"></li>
+<li>函数的函数称为泛函。函数的增量称之为微分，而泛函的增量称之为变分。</li>
+<li>拉普拉斯方程：$\nabla^{2} \mathbf{u}=0$<br>又称调和方程、位势方程，描述的是自然界中的输运现象。<br>有源时，拉普拉斯方程变形为：$\nabla^{2} \mathbf{u}=f$<br>该方程称之为<strong>泊松方程</strong>，有热源时的固体热传导就符合泊松方程。<ol start="7">
+<li>N-S方程是一个严重的非线性偏微分方程，对初值和扰动非常敏感，很容易就会失稳而产生混沌。</li>
+<li>非稳态的N-S方程对时间做平均处理，期望得到对时间做平均化的流场，同时还需要将过滤掉的旋涡对系统动量的影响考虑进去，因此就出现了各种湍流模型。</li>
+<li>DNS的主要困难在于湍流的多尺度导致要完全解析所有尺度，网格必须很细，计算量太大。复杂算例根本没法用。 为了降低计算量，提出LES ，大尺度直接解析，小尺度建模或者用耗散代替。<br>注意DNS /LES 和RANS的区别。前者相当于做了一次实验，每次做结果都可能不同；后者RANS 得到的是每一时刻随机场的均值。</li>
+<li>主流观点还是认为N-S方程是牛顿流体的完备数学描述，克努森数(Knudsen Number)：判断流体是否适合连续假设。$$连续性介质假设+牛顿流体+守恒率=NS方程$$</li>
+<li>对于偏微分方程，除了少数极简单的情况下能计算出解析解（形式还很复杂），绝大多数情况下我们还无法很好的求解——有限元就是在这种情况下应运而生，简要来说，<strong>有限元法就是为了求解偏微分方程！</strong></li>
+<li>有限元就是为了解决偏微分方程的求解问题，思路就是将复杂的空间切成很多小区域，每个区域上假设一个试函数test function（或者叫形函数shape function） $\varphi_{i}(x)$ ，然后通过求取试函数的系数 $a_{i}$来获得函数$f(x)$ 的近似。</li>
+<li>假设微分方程具有下列形式：$-\frac{\partial^{2} u}{\partial x^{2}}=f(x)$<br>原微分方程的<strong>弱形式</strong>为： $\int_{0}^{1}-\frac{\partial^{2} u_{h}}{\partial x^{2}} \cdot \varphi_{i}(x) d x=\int_{0}^{1} f(x) \cdot \varphi_{i}(x) d x$<br>之所以“弱”，是因为这个方程的解只能保证在每个单元上方程左右两边的平均值相等，而不是原微分方程要求的每一点都相等。注意此时的$u_{h}(x)$已经与原微分方程的解$u(x)$有了差异，因为我们现在是用有限维空间去近似了原无限维空间。</li>
+<li>在有限元中，有两种提高精度的方法，一种就是细化网格，此时会数值解更逼近真解，我们称之为h-refinement，也就是h法；另一种就会保持网格不变，选择更高阶数的形函数，称之为p-refinement，也就是p法。</li>
+<li><strong>有限差分方法</strong>(Finite Difference Methods,FDM)：将求解域划分为差分网格，用有限个网格节点代替连续的求解域。有限差分法以Taylor级数展开等方法，把控制方程中的导数用网格节点上的函数值的差商代替进行离散，从而建立以网格节点上的值为未知数的代数方程组。该方法是一种直接将微分问题变为代数问题的近似数值解法。</li>
+<li><strong>有限元方法</strong>(Finite Element Method,FEM)的基础是变分原理和加权余量法，其基本求解思想是把计算域划分为有限个互不重叠的单元，在每个单元内，选择一些合适的节点作为求解函数的插值点，将微分方程中的变量改写成由各变量或其导数的节点值与所选用的插值函数组成的线性表达式，借助于变分原理或加权余量法，将微分方程离散求解。</li>
+<li><strong>有限体积法</strong>(Finite Volume Method,FVM)又称为控制体积法。其基本思路是：将计算区域划分为一系列不重复的控制体积，并使每个网格点周围有一个控制体积；将待解的微分方程对每一个控制体积积分，便得出一组离散方程。其中的未知数是网格点上的因变量的数值。</li>
+<li>就离散方法而言，<strong>有限体积法</strong>可视作<strong>有限单元法</strong>和<strong>有限差分法</strong>的中间物。有限单元法必须假定值在网格点之间的变化规律（既插值函数），并将其作为近似解。有限差分法只考虑网格点上的数值而不考虑值在网格点之间如何变化。有限体积法只寻求的结点值，这与有限差分法相类似；但有限体积法在寻求控制体积的积分时，必须假定值在网格点之间的分布，这又与有限单元法相类似。在有限体积法中，插值函数只用于计算控制体积的积分，得出离散方程之后，便可忘掉插值函数；如果需要的话，可以对微分方程中不同的项采取不同的插值函数。</li>
+</ol>
+</li>
+</ol>
+<p>Reference:<br><a href="https://zhuanlan.zhihu.com/p/57764200" target="_blank" rel="noopener">J Pan 纲目列举</a><br><a href="http://blog.sina.com.cn/s/blog_4d4afb6d0100vru5.html" target="_blank" rel="noopener">有限元法、有限差分法和有限体积法的区别</a></p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.limublog.site/2020/03/20/reference/" data-id="ck8f2scs20000hgtz8kvefjrt"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%91%E5%AD%A6/" rel="tag">科学</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-Turbulence" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -931,77 +1027,6 @@
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%87%AA%E7%84%B6/" rel="tag">自然</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%A3%9F%E7%89%A9/" rel="tag">食物</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-ANSYS强度分析" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/01/30/ANSYS%E5%BC%BA%E5%BA%A6%E5%88%86%E6%9E%90/"
-    >ANSYS强度分析</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/01/30/ANSYS%E5%BC%BA%E5%BA%A6%E5%88%86%E6%9E%90/" class="article-date">
-  <time datetime="2020-01-29T22:30:01.000Z" itemprop="datePublished">2020-01-30</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%A7%91%E5%AD%A6/">科学</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="ANSYS强度分析"><a href="#ANSYS强度分析" class="headerlink" title="ANSYS强度分析"></a>ANSYS强度分析</h2><p>打开analysis systems中的modal<br>双击打开geometry建模<br>在design sketch mode里建曲线<br>使用pull拉伸或旋转出实体<br>可在section mode中选择剖视图</p>
-<p>做完图用static structural进行分析<br>在材料里创建新材料（在打开static后）<br>在linear elastic中改isotropic elasticity<br>在strength里改tensile yield strength<br>在project里update材料</p>
-<p>在model中计算<br>surface里选3mm<br>Geometry solid assignment改材料<br>Mesh画网格<br>Static structural中insert加入pressure和remote displacement固定<br>Extend用于扩展选中内部所有面<br>Solve</p>
-<p>结果输出equivalent stress和total deformation<br>如果定义了yield strength屈服强度的话可以使用stress tools工具包分析</p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://blog.limublog.site/2020/01/30/ANSYS%E5%BC%BA%E5%BA%A6%E5%88%86%E6%9E%90/" data-id="ck61aihey000swgtz0fondbte"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%89%E9%99%90%E5%85%83/" rel="tag">有限元</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%91%E5%AD%A6/" rel="tag">科学</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%93%E6%9E%84/" rel="tag">结构</a></li></ul>
 
     </footer>
 
